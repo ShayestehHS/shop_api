@@ -1,17 +1,12 @@
-import os
+from decouple import config
 
 from shop_api.settings.base import *
 
-DEBUG = bool(int(os.getenv("DEBUG", default=0)))
+DEBUG = config("DEBUG", default=0)
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
-ALLOWED_HOSTS.extend(
-    filter(
-        None,
-        os.getenv("DJANGO_ALLOWED_HOSTS", default="*").split(" ")
-    )
-)
-SECRET_KEY = os.getenv('SECRET_KEY')
+ALLOWED_HOSTS.extend(filter(None, config("DJANGO_ALLOWED_HOSTS", default="*").split(" ")))
+SECRET_KEY = config('SECRET_KEY')
 
 DOMAIN_NAME = 'shayestehhs.ir'
 
@@ -24,9 +19,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': 'db',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
         'PORT': '5432',
     }
 }
@@ -42,11 +37,11 @@ DATABASES = {
 # SECURE_HSTS_SECONDS = 1000000
 # SECURE_FRAME_DENY = True
 
-MAILCHIMP_API_KEY = os.getenv('MAILCHIMP_API_KEY')
-MAILCHIMP_DATA_CENTER = os.getenv('MAILCHIMP_DATA_CENTER')
-MAILCHIMP_PUB_KEY = os.getenv('MAILCHIMP_PUB_KEY')
+MAILCHIMP_API_KEY = config('MAILCHIMP_API_KEY')
+MAILCHIMP_DATA_CENTER = config('MAILCHIMP_DATA_CENTER')
+MAILCHIMP_PUB_KEY = config('MAILCHIMP_PUB_KEY')
 
-MERCHANT = os.getenv('MERCHANT')
+MERCHANT = config('MERCHANT')
 
 # Celery configuration
 BROKER_URL = f'redis://{DOMAIN_NAME}:6379'
