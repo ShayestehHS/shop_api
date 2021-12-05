@@ -17,13 +17,12 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
-from accounts.api.views import CustomConfirmEmailView
 from shop_api.views import HomeAPIView
 
 urlpatterns = [
     path('', HomeAPIView.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.api.urls', namespace='accounts')),
+    path('accounts/', include('accounts.api.urls')),
 ]
 
 if settings.DEBUG:

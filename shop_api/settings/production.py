@@ -1,3 +1,5 @@
+import os
+
 from decouple import config
 
 from shop_api.settings.base import *
@@ -44,5 +46,6 @@ MAILCHIMP_PUB_KEY = config('MAILCHIMP_PUB_KEY')
 MERCHANT = config('MERCHANT')
 
 # Celery configuration
-BROKER_URL = f'redis://{DOMAIN_NAME}:6379'
-CELERY_RESULT_BACKEND = f'redis://{DOMAIN_NAME}:6379'
+DJANGO_SETTINGS_MODULE = 'settings.production'
+BROKER_URL = f'redis://{os.getenv("HOSTNAME")}:6379'
+CELERY_RESULT_BACKEND = f'redis://{os.getenv("HOSTNAME")}:6379'
