@@ -49,3 +49,6 @@ MERCHANT = config('MERCHANT')
 DJANGO_SETTINGS_MODULE = 'settings.production'
 BROKER_URL = f'redis://{os.getenv("HOSTNAME")}:6379'
 CELERY_RESULT_BACKEND = f'redis://{os.getenv("HOSTNAME")}:6379'
+
+# Cache configuration
+CACHES['default']['LOCATION'] = "redis://redis/1"
