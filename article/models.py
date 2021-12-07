@@ -1,8 +1,10 @@
+import datetime
 import os
+import time
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, BaseValidator
 from django.db import models
 
 from ckeditor.fields import RichTextField
@@ -12,8 +14,10 @@ User = settings.AUTH_USER_MODEL
 
 
 def validate_body(value):
-    if value in settings.ARTICLE_BLACK_LIST:
-        raise ValidationError(f"{value} is in our black list.")
+    black_list: list = settings.ARTICLE_BLACK_LIST
+    for word in black_list:
+        if word in value:
+            raise ValidationError(f"{word} is in our black list.")
 
 
 def get_file_ext(filename):
@@ -27,7 +31,7 @@ class Article(models.Model):
     title = models.CharField(max_length=127, help_text="Maximum length is 127 character.")
     slug = models.SlugField(unique=True, max_length=127, help_text="Maximum length is 127 character.")
     image = models.ImageField(upload_to="upload_article_image_path")
-    body = RichTextField()
+    body = RichTextField(validators=[validate_body])
     hits = models.IntegerField(default=1)
     is_published = models.BooleanField(default=False)
     update_time = models.DateTimeField(auto_now=True)
@@ -39,10 +43,17 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+
         super(Article, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['-timestamp']
+        verbose_name = "article"
+        verbose_name_plural = "articles"
+
 
 
 def upload_article_image_path(instance: Article, filename):
