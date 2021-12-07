@@ -135,6 +135,10 @@ AUTH_USER_MODEL = "accounts.User"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# Article model configuration
+ALLOWED_PNG_EXTENSION = ['.png', '.jpg']
+ARTICLE_BLACK_LIST = ['bad word', 'ugly', 'laravel', 'php']
+
 # DRF configuration
 SITE_ID = 1
 REST_USE_JWT = True
