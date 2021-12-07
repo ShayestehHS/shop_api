@@ -38,7 +38,7 @@ class Article(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     rated_numbers = models.PositiveSmallIntegerField(default=0, help_text="Maximum valid integer is 2,147,483,647")
-    average = models.FloatField(default=2.5, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
+    average_rating = models.FloatField(default=2.5, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
 
     def save(self, *args, **kwargs):
         if not self.slug:
