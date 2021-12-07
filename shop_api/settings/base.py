@@ -47,7 +47,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 ]
-LOCAL_APPS = ['shop_api', 'accounts']
+LOCAL_APPS = ['accounts', 'article']
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from blog.models import Article
+from article.models import Article
 
 
 @admin.register(Article)
