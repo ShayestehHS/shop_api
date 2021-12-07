@@ -138,7 +138,9 @@ AUTH_USER_MODEL = "accounts.User"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# Article model configuration
+# Article configuration
+ARTICLE_PAGINATION = 5
+MAX_ARTICLE_PAGINATION = 15
 ALLOWED_PNG_EXTENSION = ['.png', '.jpg']
 ARTICLE_BLACK_LIST = ['bad word', 'ugly', 'laravel', 'php']
 
