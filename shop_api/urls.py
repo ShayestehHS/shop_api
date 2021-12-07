@@ -22,7 +22,9 @@ from shop_api.views import HomeAPIView
 urlpatterns = [
     path('', HomeAPIView.as_view(), name='home'),
     path('admin/', admin.site.urls),
+
     path('accounts/', include('accounts.api.urls')),
+    path('article/', include('article.api.urls', namespace='article')),
 ]
 
 if settings.DEBUG:
