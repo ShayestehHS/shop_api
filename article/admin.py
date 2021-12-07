@@ -6,13 +6,13 @@ from article.models import Article
 
 @admin.register(Article)
 class ArticleModelAdmin(admin.ModelAdmin):
-    list_display = ['image_tag', 'title', 'user', 'status']
-    list_filter = ['status']
+    list_display = ['image_tag', 'title', 'author', 'is_published']
+    list_filter = ['is_published']
     search_fields = ['title', 'slug', 'body']
     readonly_fields = ('id',)
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('title',)}
 
-    def image_tag(self):
-        return format_html(f"<img width=100 height=75 style='border-radius: 2px;' src='{self.image.url}'>")
+    def image_tag(self, obj):
+        return format_html(f"<img width=50 height=50 style='border-radius: 2px;' src='{obj.image.url}'>")
 
     image_tag.short_description = 'image'
