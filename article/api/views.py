@@ -11,7 +11,7 @@ from article.models import Article
 class ArticlePagination(PageNumberPagination):
     page_size = settings.ARTICLE_PAGINATION
     page_size_query_param = 'page_size'
-    max_page_size = settings.MAX_ARTICLE_PAGINATION
+    max_page_size = settings.ARTICLE_MAX_PAGINATION
 
 
 class ArticleList(ListAPIView):
