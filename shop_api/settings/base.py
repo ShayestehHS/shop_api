@@ -49,6 +49,8 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'ckeditor',
+    'taggit',
+    'taggit_serializer',
 ]
 LOCAL_APPS = ['accounts', 'article', 'product']
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
