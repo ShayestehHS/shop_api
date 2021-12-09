@@ -50,7 +50,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount.providers.google',
     'ckeditor',
 ]
-LOCAL_APPS = ['accounts', 'article']
+LOCAL_APPS = ['accounts', 'article', 'product']
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
