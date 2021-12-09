@@ -52,7 +52,11 @@ THIRD_PARTY_APPS = [
     'taggit',
     'taggit_serializer',
 ]
-LOCAL_APPS = ['accounts', 'article', 'product']
+LOCAL_APPS = [
+    'accounts.apps.AccountsConfig',
+    'article.apps.ArticleConfig',
+    'product.apps.ProductConfig',
+]
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
