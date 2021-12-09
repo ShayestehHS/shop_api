@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.core.cache import cache
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from article.api.serializers import ArticleCreateSerializer, ArticleListSerializer
+from article.api.serializers import ArticleCreateSerializer, ArticleDetailSerializer, ArticleListSerializer
 from article.models import Article
 
 
@@ -35,3 +35,18 @@ class ArticleCreate(CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+
+class ArticleDetail(RetrieveAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = ArticleDetailSerializer
+
+    def get_object(self):
+        obj = Article.objects \
+            .filter(pk=self.kwargs.get('pk')) \
+            .select_related('author') \
+            .only(*self.serializer_class.Meta.fields, 'id', 'hits', 'slug') \
+            .first()
+        obj.hits += 1  # need hits
+        obj.save(update_fields=['hits'])  # need slug
+        return obj
