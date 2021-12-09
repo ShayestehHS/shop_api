@@ -34,7 +34,7 @@ class Article(models.Model):
     body = RichTextField(validators=[validate_body])
     hits = models.IntegerField(default=1)
     is_published = models.BooleanField(default=False)
-    update_time = models.DateTimeField(auto_now=True)
+    last_update = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     rated_numbers = models.PositiveSmallIntegerField(default=0, help_text="Maximum valid integer is 2,147,483,647")

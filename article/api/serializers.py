@@ -6,7 +6,7 @@ from article.models import Article
 class ArticleListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        exclude = ['is_published', 'hits', 'update_time', 'body', 'average_rating']
+        exclude = ['is_published', 'hits', 'last_update', 'average_rating']
 
 
 class ArticleCreateSerializer(serializers.ModelSerializer):
