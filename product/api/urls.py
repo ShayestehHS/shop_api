@@ -1,9 +1,9 @@
 from django.urls import path
 
-from article.api import views
+from product.api import views
 
 app_name = 'product'
 
 urlpatterns = [
-
+    path('create/', views.ProductCreate.as_view(), name='create'),
 ]
