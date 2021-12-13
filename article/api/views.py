@@ -48,5 +48,5 @@ class ArticleDetail(RetrieveAPIView):
             .only(*self.serializer_class.Meta.fields, 'id', 'hits', 'slug') \
             .first()
         obj.hits += 1  # should be in 'only'
-        obj.save(update_fields=['hits'])  # should be in 'only'
+        obj.save(update_fields=['hits'])  # save method use 'slug'
         return obj
