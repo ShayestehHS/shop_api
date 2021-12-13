@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.cache import cache
+from rest_framework.exceptions import NotFound
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -45,8 +46,10 @@ class ArticleDetail(RetrieveAPIView):
         obj = Article.objects \
             .filter(pk=self.kwargs.get('pk')) \
             .select_related('author') \
-            .only(*self.serializer_class.Meta.fields, 'id', 'hits', 'slug') \
-            .first()
+            .only(*self.serializer_class.Meta.fields, 'id', 'hits', 'slug')
+
+        if not obj.exists(): raise NotFound(detail="Error 404, article not found", code=404)
+        obj.first()
         obj.hits += 1  # should be in 'only'
         obj.save(update_fields=['hits'])  # save method use 'slug'
         return obj
