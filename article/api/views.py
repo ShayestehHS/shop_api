@@ -38,7 +38,7 @@ class ArticleCreate(CreateAPIView):
         serializer.save(author=self.request.user)
 
 
-class ArticleDetail(RetrieveAPIView):
+class ArticleRetrieve(RetrieveAPIView):
     permission_classes = [AllowAny]
     serializer_class = ArticleDetailSerializer
 
