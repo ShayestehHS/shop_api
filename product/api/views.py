@@ -1,6 +1,6 @@
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 
 from product.api.serializers import ProductCreateSerializer, ProductRetrieveSerializer
 from product.models import Product
@@ -12,7 +12,6 @@ class ProductCreate(CreateAPIView):
 
 
 class ProductRetrieve(RetrieveAPIView):
-    permission_classes = [AllowAny]
     serializer_class = ProductRetrieveSerializer
 
     def get_object(self):

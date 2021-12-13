@@ -3,7 +3,7 @@ from django.core.cache import cache
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 from article.api.serializers import ArticleCreateSerializer, ArticleDetailSerializer, ArticleListSerializer
 from article.models import Article
@@ -39,7 +39,6 @@ class ArticleCreate(CreateAPIView):
 
 
 class ArticleRetrieve(RetrieveAPIView):
-    permission_classes = [AllowAny]
     serializer_class = ArticleDetailSerializer
 
     def get_object(self):
