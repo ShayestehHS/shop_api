@@ -9,7 +9,7 @@ User = get_user_model()
 class ArticleListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        exclude = ['is_published', 'hits', 'last_update', 'average_rating']
+        exclude = ['is_published', 'hits', 'last_update', 'average_rate']
 
 
 class ArticleCreateSerializer(serializers.ModelSerializer):
@@ -26,4 +26,4 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['title', 'body', 'author', 'last_update', 'average_rating']
+        fields = ['title', 'body', 'author', 'last_update', 'average_rate']

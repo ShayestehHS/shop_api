@@ -65,7 +65,7 @@ class Product(models.Model):
     color = models.CharField(default='yellow', max_length=15, help_text="Maximum length for color is 15 character.")
     size = models.PositiveSmallIntegerField(default=1)
     carat = models.CharField(choices=CHOICES_CARAT, max_length=2)
-    average_rating = models.FloatField(default=2.5, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
+    average_rate = models.FloatField(default=2.5, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
 
     is_have_stone = models.BooleanField(default=False)
     stone_price = models.PositiveSmallIntegerField(default=0, help_text="Maximum valid integer is 2,147,483,647")
