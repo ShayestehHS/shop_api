@@ -32,7 +32,7 @@ def get_file_ext(value):
 
 def ext_validator(filename):
     valid_ext: list = settings.PRODUCT_ALLOWED_PNG_EXTENSION
-    ext = get_file_ext(filename.url)
+    ext = get_file_ext(filename.name)
 
     if ext not in valid_ext:
         raise ValidationError(f"{ext} is not in our valid extension list.")
