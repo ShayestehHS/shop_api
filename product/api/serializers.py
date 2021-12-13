@@ -14,3 +14,9 @@ class ProductRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         exclude = ['slug', 'last_update', 'purchase_price']
+
+
+class ProductListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        exclude = ['slug', 'last_update', 'body', 'count', 'stone_price', 'purchase_price']
