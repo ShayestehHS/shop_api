@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = [
     'ckeditor',
     'taggit',
     'taggit_serializer',
+    'django_celery_beat',
 ]
 LOCAL_APPS = [
     'accounts.apps.AccountsConfig',
@@ -202,7 +203,7 @@ EMAIL_USE_SSL = True
 
 # Celery configuration
 DJANGO_SETTINGS_MODULE = 'settings.base'
-CELERY_TIMEZONE = "Asia/Tehran"
+CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 min
 
