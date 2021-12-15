@@ -1,12 +1,12 @@
 import os
 
+from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models
+from django.utils.text import slugify
 
 from ckeditor.fields import RichTextField
-from django.utils.text import slugify
 from taggit.managers import TaggableManager
 
 CHOICES_CARAT = [
@@ -82,6 +82,9 @@ class Product(models.Model):
 
         self.full_clean()
         super(Product, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ['-timestamp']
