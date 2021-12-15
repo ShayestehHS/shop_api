@@ -57,6 +57,7 @@ LOCAL_APPS = [
     'accounts.apps.AccountsConfig',
     'article.apps.ArticleConfig',
     'product.apps.ProductConfig',
+    'order.apps.OrderConfig',
 ]
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
@@ -145,7 +146,9 @@ AUTH_USER_MODEL = "accounts.User"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# Models configuration
+# Site configuration
+DEFAULT_TAX_PERCENT = 9
+DEFAULT_BENEFIT_PERCENT = 7
 DEFAULT_PAGINATION = 5
 DEFAULT_MAX_PAGINATION = 15
 DEFAULT_ALLOWED_PNG_EXTENSION = ['.png', '.jpg']
