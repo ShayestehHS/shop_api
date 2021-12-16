@@ -47,7 +47,6 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'ckeditor',
     'taggit',
     'taggit_serializer',
