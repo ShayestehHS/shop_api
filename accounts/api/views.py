@@ -1,5 +1,4 @@
 import requests
-from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -24,10 +23,9 @@ class CustomConfirmEmailView(ConfirmEmailView):
         response = requests.post(url, data=post_data)
 
         if response.status_code != status.HTTP_200_OK:
-            messages.error(self.request, 'Your key is not valid')
-            return redirect('home')
+            data = {'message': 'Your key is not valid'}
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
-        messages.error(self.request, 'Your key is not valid')
         user = get_user_model().objects.filter(email=self.request.user.email).only('id')
         user_page = reverse('rest_user_details', args=[user.id])
         return redirect(user_page)
@@ -40,8 +38,8 @@ class CustomResendEmailVerificationView(ResendEmailVerificationView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        email = EmailAddress.objects\
-            .filter(**serializer.validated_data)\
+        email = EmailAddress.objects \
+            .filter(**serializer.validated_data) \
             .only('id', 'verified')
 
         if not email.exists():
