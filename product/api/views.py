@@ -1,4 +1,5 @@
 from django.core.cache import cache
+from rest_framework import status
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser
@@ -21,7 +22,7 @@ class ProductRetrieve(RetrieveAPIView):
             .defer(*self.serializer_class.Meta.exclude)
 
         if not obj.exists():
-            raise NotFound(detail="Error 404, product not found", code=404)
+            raise NotFound(detail="Error 404, product not found", code=status.HTTP_400_BAD_REQUEST)
         return obj.first()
 
 
@@ -34,7 +35,7 @@ class ProductList(ListAPIView):
     def get_queryset(self):
         if 'products' in cache:
             products = cache.get('products')
-            if products.exists():return products
+            if products.exists(): return products
 
         qs = Product.objects \
             .filter(in_store=True) \
