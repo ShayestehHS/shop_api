@@ -75,7 +75,7 @@ class Product(models.Model):
     tags = TaggableManager()
 
     def save(self, *args, **kwargs):
-        if self.is_have_stone and self.stone_price == 0:
+        if self.is_have_stone != self.stone_price:  # True,0 OR False,PositiveInteger
             raise ValidationError("Stone of this product doesn't have any price.")
         if not self.slug:
             self.slug = slugify(self.name)
