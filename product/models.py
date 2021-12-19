@@ -71,7 +71,7 @@ class Product(models.Model):
     stone_price = models.PositiveSmallIntegerField(default=0, help_text="Maximum valid integer is 2,147,483,647")
     material = models.CharField(default='g', choices=MATERIAL_CHOICES, max_length=1)
     purchase_price = models.PositiveSmallIntegerField(default=0, help_text="Maximum valid integer is 2,147,483,647")
-
+    price = models.PositiveSmallIntegerField(default=0, help_text="Maximum valid integer is 2,147,483,647")
     tags = TaggableManager()
 
     def save(self, *args, **kwargs):
