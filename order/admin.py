@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from order.models import Order
+from order.models import Coupon, Order
+
+
+@admin.register(Coupon)
+class OrderModelAdmin(admin.ModelAdmin):
+    readonly_fields = ['id']
+    list_display = ['__str__', 'is_valid', 'discount_amount', 'discount_percent']
+    list_filter = ['is_valid']
 
 
 @admin.register(Order)
