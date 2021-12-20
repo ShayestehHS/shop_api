@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.conf import settings
 
@@ -10,6 +11,7 @@ User = settings.AUTH_USER_MODEL
 class Coupon(models.Model):
     discount_percent = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(100)])
     discount_amount = models.PositiveSmallIntegerField(default=0)
+    code = models.CharField(max_length=15, help_text="Maximum length for code is 15 character.")
     is_valid = models.BooleanField(default=False)
     detail = models.CharField(max_length=255, help_text="Maximum length for detail is 255 character.")
 
