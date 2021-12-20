@@ -4,13 +4,10 @@ from order.models import Coupon, Order
 
 
 class OrderListSerializer(serializers.ModelSerializer):
-    coupon = serializers.SerializerMethodField()
+    is_used_coupon = serializers.SerializerMethodField()
 
-    def get_coupon(self, obj: Order):
-        if obj.coupon:
-            coupon = Coupon.objects.filter(order=obj).only('is_valid').first()
-            return coupon.is_valid
-        return False
+    def get_is_used_coupon(self, obj: Order):
+        return bool(obj.coupon_id)
 
     class Meta:
         model = Order
