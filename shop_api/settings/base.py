@@ -158,6 +158,13 @@ DEFAULT_MAX_PAGINATION = 15
 DEFAULT_ALLOWED_PNG_EXTENSION = ['.png', '.jpg']
 DEFAULT_BODY_BLACK_LIST = ['bad word', 'ugly', 'laravel', 'php']
 
+# Zarrinpal configuration
+MERCHANT = "CHANGE-ME"
+DEFAULT_ZP_DESCRIPTION = "Thank you"
+ZP_API_REQUEST = "https://api.zarinpal.com/pg/v4/payment/request.json"
+ZP_API_VERIFY = "https://api.zarinpal.com/pg/v4/payment/verify.json"
+ZP_API_START_PAY = "https://www.zarinpal.com/pg/StartPay/{authority}"
+
 # Article configuration
 ARTICLE_PAGINATION = DEFAULT_PAGINATION
 ARTICLE_MAX_PAGINATION = DEFAULT_MAX_PAGINATION
