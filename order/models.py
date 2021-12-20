@@ -8,7 +8,7 @@ User = settings.AUTH_USER_MODEL
 
 
 class Coupon(models.Model):
-    discount_percent = models.PositiveSmallIntegerField(default=0)
+    discount_percent = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(100)])
     discount_amount = models.PositiveSmallIntegerField(default=0)
     is_valid = models.BooleanField(default=False)
     detail = models.CharField(max_length=255, help_text="Maximum length for detail is 255 character.")
