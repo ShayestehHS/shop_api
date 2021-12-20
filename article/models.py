@@ -1,6 +1,4 @@
-import datetime
 import os
-import time
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
