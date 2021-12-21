@@ -55,7 +55,7 @@ def upload_product_image_path(instance, filename):
 class Product(models.Model):
     name = models.CharField(max_length=127, help_text="Maximum length is 127 character.")
     slug = models.SlugField(unique=True, allow_unicode=True, max_length=255, help_text="Maximum length is 255 character.")
-    image = models.ImageField(upload_to='upload_product_image_path', validators=[ext_validator])
+    image = models.ImageField(upload_to=upload_product_image_path, validators=[ext_validator])
     body = RichTextField(validators=[body_validator])
     in_store = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
