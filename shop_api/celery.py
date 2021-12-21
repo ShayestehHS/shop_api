@@ -20,8 +20,5 @@ app.conf.beat_schedule = {
     'get price gold carat 24': {
         'task': 'product.tasks.get_gold_carat_24_price',
         'schedule': 1,
-    }, 'get gold mesghal': {
-        'task': 'product.tasks.get_gold_mesghal_price',
-        'schedule': 1,
     },
 }
