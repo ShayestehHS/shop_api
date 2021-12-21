@@ -37,7 +37,7 @@ class Article(models.Model):
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
     title = models.CharField(max_length=127, help_text="Maximum length is 127 character.")
     slug = models.SlugField(unique=True, max_length=127, help_text="Maximum length is 127 character.")
-    image = models.ImageField(upload_to="upload_article_image_path", help_text=f"Valid extensions are: {' '.join(settings.ARTICLE_ALLOWED_PNG_EXTENSION)}")
+    image = models.ImageField(upload_to=upload_article_image_path, help_text=f"Valid extensions are: {' '.join(settings.ARTICLE_ALLOWED_PNG_EXTENSION)}")
     body = RichTextField(validators=[body_validator])
     hits = models.IntegerField(default=1)
     is_published = models.BooleanField(default=False)
