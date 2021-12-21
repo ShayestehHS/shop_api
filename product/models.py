@@ -9,12 +9,9 @@ from django.utils.text import slugify
 from ckeditor.fields import RichTextField
 from taggit.managers import TaggableManager
 
-CHOICES_CARAT = [
+CARAT_CHOICES = [
     ("24", "24 carat"),
-    ("22", "22 carat"),
     ("18", "18 carat"),
-    ("14", "14 carat"),
-    ("8", "8 carat"),
 ]
 MATERIAL_CHOICES = [
     ('g', 'Gold'),
