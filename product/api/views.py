@@ -28,7 +28,7 @@ class ProductRetrieve(RetrieveAPIView):
 
 class ProductList(ListAPIView):
     serializer_class = ProductListSerializer
-    filterset_fields = ['in_store', 'material']
+    filterset_fields = ['in_store']
     search_filter = ['name', 'slug', 'body', 'tags__name', 'tags__slug']
     ordering_fields = ['timestamp', 'average_rate']
 

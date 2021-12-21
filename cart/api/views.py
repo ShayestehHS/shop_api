@@ -46,7 +46,7 @@ class CartUpdateSumPrice(APIView):
 
     def get(self, request, format=None):
         cart = Cart.objects.filter(user=request.user).only('id').first()
-        products = Product.objects.filter(cart=cart).only('weight', 'carat', 'wage', 'stone_price', 'material')
+        products = Product.objects.filter(cart=cart).only('weight', 'carat', 'wage', 'stone_price')
         products_price = get_products_price(products)
 
         new_price = {}

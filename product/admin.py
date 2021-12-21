@@ -6,8 +6,8 @@ from product.models import Product
 
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
-    list_display = ['image_tag', 'name', 'count', 'in_store', 'material']
-    list_filter = ['in_store', 'material']
+    list_display = ['image_tag', 'name', 'count', 'in_store']
+    list_filter = ['in_store']
     search_fields = ['body', 'name', 'slug']
     readonly_fields = ['id']
     prepopulated_fields = {'slug': ('name',)}

@@ -30,7 +30,7 @@ def get_gold_price_from_cache(carat: str):
 def get_products_price(products):
     """
         For getting product price we need:
-        'material', 'carat', 'wage', 'weight', 'stone_price'
+        'carat', 'wage', 'weight', 'stone_price'
     """
     result = []
     for product in products:
