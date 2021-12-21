@@ -33,4 +33,5 @@ class Order(models.Model):
     address = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
+    authority = models.CharField(null=True, blank=True, max_length=36)
     discount = models.DecimalField(default=0, max_digits=10, decimal_places=2, help_text="Maximum valid discount is 99,999,999.99")
