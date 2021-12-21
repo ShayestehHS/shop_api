@@ -5,6 +5,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -15,9 +16,16 @@ from order.api.serializers import OrderCreateSerializer, OrderListSerializer
 from shop_api.utils import create_response_base_on_post_res, send_request_to_zp
 
 
+class OrderPagination(PageNumberPagination):
+    page_size = settings.ORDER_PAGINATION
+    page_size_query_param = 'page_size'
+    max_page_size = settings.ORDER_MAX_PAGINATION
+
+
 class OrderListAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = OrderListSerializer
+    pagination_class = OrderPagination
 
     def get_queryset(self):
         if self.queryset:
