@@ -13,6 +13,10 @@ CARAT_CHOICES = [
     ("24", "24 carat"),
     ("18", "18 carat"),
 ]
+COLOR_CHOICES = [
+    ('y', 'Yellow'),
+    ('w', 'White'),
+]
 MATERIAL_CHOICES = [
     ('g', 'Gold'),
     ('s', 'Sliver'),
@@ -59,9 +63,9 @@ class Product(models.Model):
     # ToDo: category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
     count = models.PositiveSmallIntegerField(default=0, help_text="Maximum valid integer is 2,147,483,647")
-    color = models.CharField(default='yellow', max_length=15, help_text="Maximum length for color is 15 character.")
-    size = models.PositiveSmallIntegerField(default=1)
-    carat = models.CharField(choices=CHOICES_CARAT, max_length=2)
+    color = models.CharField(default='y', choices=COLOR_CHOICES, max_length=6)
+    weight = models.PositiveSmallIntegerField(default=1)
+    carat = models.CharField(choices=CARAT_CHOICES, max_length=2)
     average_rate = models.FloatField(default=2.5, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
 
     is_have_stone = models.BooleanField(default=False)
