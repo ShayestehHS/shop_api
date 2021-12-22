@@ -16,11 +16,12 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from django.views.decorators.cache import cache_page
 
 from shop_api.views import HomeAPIView
 
 urlpatterns = [
-    path('', HomeAPIView.as_view(), name='home'),
+    path('', cache_page(60 * 15)(HomeAPIView.as_view()), name='home'),
     path('admin/', admin.site.urls),
 
     path('accounts/', include('accounts.api.urls')),
