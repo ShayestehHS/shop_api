@@ -1,4 +1,3 @@
-from django.views.generic import UpdateView
 from rest_framework.generics import ListAPIView, GenericAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
