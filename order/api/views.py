@@ -2,9 +2,8 @@ import json
 
 import requests
 from django.conf import settings
-from django.http import JsonResponse
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -69,20 +68,18 @@ class OrderCreateAPIView(CreateAPIView):
 
 
 class VerifyAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def get(self, request, format=None):
         if request.GET.get('Status') != 'OK':
             return Response({"Error": 'Transaction failed or canceled by user'}, status=status.HTTP_400_BAD_REQUEST)
-        order = Order.objects \
-            .filter(user=request.user, is_paid=False) \
-            .only('payable_amount') \
-            .first()
+
+        authority = request.GET['Authority']
+        order = get_object_or_404(Order, authority=authority)
+
         req_header = {"accept": "application/json", "content-type": "application/json"}
         req_data = {
             "merchant_id": settings.MERCHANT,
-            "amount": order.payable_amount,
-            "authority": request.GET['Authority'],
+            "amount": 50 * 1000,
+            "authority": authority,
         }
 
         res_post = requests.post(url=settings.ZP_API_VERIFY, data=json.dumps(req_data), headers=req_header)
@@ -90,6 +87,8 @@ class VerifyAPIView(APIView):
         if response.status_code == 200:
             order.is_paid = True
             order.save(update_fields=['is_paid'])
+            cart = Cart.objects.get(user=request.user)
+            cart.products.clear()
 
         return response
 
@@ -106,4 +105,4 @@ class PaymentAPIView(APIView):
             return Response({"Error": "You can't have more than one unpaid order at the same time."}, status=status.HTTP_400_BAD_REQUEST)
 
         order = order.first()
-        return send_request_to_zp(request, int(order.payable_amount) * 1000, user.email)
+        return send_request_to_zp(request, order, int(order.payable_amount) * 1000, user.email)

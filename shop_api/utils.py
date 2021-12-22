@@ -6,8 +6,10 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from rest_framework.response import Response
 
+from order.models import Order
 
-def send_request_to_zp(request, amount, email, mobile=None, description=settings.DEFAULT_ZP_DESCRIPTION):
+
+def send_request_to_zp(request, order: Order, amount, email, mobile=None, description=settings.DEFAULT_ZP_DESCRIPTION):
     req_data = {
         "merchant_id": settings.MERCHANT,
         "amount": amount,  # Rial / Required
@@ -36,6 +38,8 @@ def send_request_to_zp(request, amount, email, mobile=None, description=settings
         e_message = req.json()['errors']['message']
         return Response({"Error code": e_code, "Error Message": e_message}, status=500)
 
+    order.authority = authority
+    order.save(update_fields=['authority'])
     return redirect(settings.ZP_API_START_PAY.format(authority=authority))
 
 
