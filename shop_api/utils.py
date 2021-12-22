@@ -58,7 +58,7 @@ def create_response_base_on_post_res(res_post):
 
     elif t_status == 101:
         message = str(request_data['message'])
-        response = Response({'Result': "Transaction submitted", "Message": message}, status=200)
+        response = Response({'Result': "Transaction submitted", "Message": message}, status=204)
 
     else:
         message = str(request_data['message'])
