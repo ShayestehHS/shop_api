@@ -23,12 +23,14 @@ from shop_api.views import HomeAPIView
 urlpatterns = [
     path('', cache_page(60 * 15)(HomeAPIView.as_view()), name='home'),
     path('admin/', admin.site.urls),
-
     path('accounts/', include('accounts.api.urls')),
     path('article/', include('article.api.urls', namespace='article')),
     path('product/', include('product.api.urls', namespace='product')),
     path('order/', include('order.api.urls', namespace='order')),
     path('cart/', include('cart.api.urls', namespace='cart')),
+
+    # Third party apps
+    path('comments/', include('django_comments_xtd.urls')),
 ]
 
 if settings.DEBUG:

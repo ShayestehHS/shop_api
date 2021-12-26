@@ -51,6 +51,8 @@ THIRD_PARTY_APPS = [
     'taggit',
     'taggit_serializer',
     'django_celery_beat',
+    'django_comments_xtd',
+    'django_comments',
 ]
 LOCAL_APPS = [
     'accounts.apps.AccountsConfig',
@@ -218,6 +220,10 @@ EMAIL_HOST_PASSWORD = "CHANGE-ME"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
+
+# django-comment-xtd config
+COMMENTS_APP = 'django_comments_xtd'
+COMMENTS_XTD_MAX_THREAD_LEVEL = 2
 
 # Celery configuration
 DJANGO_SETTINGS_MODULE = 'settings.base'
