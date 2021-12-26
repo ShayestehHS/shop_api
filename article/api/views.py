@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.core.cache import cache
 from rest_framework.exceptions import NotFound
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from article.api.serializers import ArticleCreateSerializer, ArticleDetailSerializer, ArticleListSerializer
 from article.models import Article
@@ -28,6 +29,22 @@ class ArticleList(ListAPIView):
         queryset = Article.objects.filter(is_published=True)
         if queryset.count() > 0: cache.set('articles', queryset)
         return queryset
+
+
+class ArticleChangeStatus(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        article_pk = kwargs.get('pk')
+        user = request.user
+        article = Article.objects.filter(author=user, pk=article_pk).only('id','is_published')
+        if not article.exists():
+            return Response({'Result': "Article not found."}, status=403)
+        article = article.first()
+
+        article.is_published = not article.is_published
+        article.save(update_fields=['is_published'])
+        return Response({'Result': f'Article with ID={article.id} is published.'})
 
 
 class ArticleCreate(CreateAPIView):
