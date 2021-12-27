@@ -1,5 +1,3 @@
-import os
-
 from decouple import config
 
 from shop_api.settings.base import *
@@ -27,23 +25,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
-# SSL/TLS Settings
-# CORS_REPLACE_HTTPS_REFERER = True
-# HOST_SCHEME = "https://"
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_SECONDS = 1000000
-# SECURE_FRAME_DENY = True
-
-MAILCHIMP_API_KEY = config('MAILCHIMP_API_KEY')
-MAILCHIMP_DATA_CENTER = config('MAILCHIMP_DATA_CENTER')
-MAILCHIMP_PUB_KEY = config('MAILCHIMP_PUB_KEY')
-
-MERCHANT = config('MERCHANT')
 
 # Celery configuration
 DJANGO_SETTINGS_MODULE = 'settings.production'
