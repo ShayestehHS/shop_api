@@ -228,7 +228,12 @@ EMAIL_USE_SSL = True
 
 # django-comment-xtd config
 COMMENTS_APP = 'django_comments_xtd'
+COMMENTS_XTD_API_GET_USER_AVATAR = "shop_api.utils.get_avatar_url"
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2
+COMMENTS_XTD_MAX_THREAD_LEVEL_BY_APP_MODEL = {
+    'article.article': 5,
+    'product.product': 5,
+}
 
 # Celery configuration
 DJANGO_SETTINGS_MODULE = 'settings.base'
