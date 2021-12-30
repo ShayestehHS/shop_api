@@ -202,6 +202,11 @@ REST_FRAMEWORK = {
     ]
 }
 
+# Django-Rest-Auth configuration
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'accounts.api.serializers.CustomLoginSerializer',
+}
+
 # JWT configuration
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
