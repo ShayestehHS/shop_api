@@ -96,10 +96,10 @@ class VerifyAPIView(APIView):
 
         res_post = requests.post(url=settings.ZP_API_VERIFY, data=json.dumps(req_data), headers=req_header)
         response: Response = create_response_base_on_post_res(res_post)
-        if response.status_code == 200:
+        if response.status_code == 200 or (not order.is_paid and response.status_code == 204):
             order.is_paid = True
             order.save(update_fields=['is_paid'])
-            cart = Cart.objects.get(user=request.user)
+            cart = Cart.objects.get(order_authority=authority)
             cart.products.clear()
             update_products_count(order)
         return response

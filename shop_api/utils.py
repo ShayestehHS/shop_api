@@ -7,10 +7,11 @@ from django.urls import reverse
 from django_comments_xtd.utils import get_user_avatar
 from rest_framework.response import Response
 
+from cart.models import Cart
 from order.models import Order
 
 
-def send_request_to_zp(request, order: Order, amount, email, mobile=None, description=settings.DEFAULT_ZP_DESCRIPTION):
+def send_request_to_zp(request, order: Order, cart: Cart, amount, email, mobile=None, description=settings.DEFAULT_ZP_DESCRIPTION):
     req_data = {
         "merchant_id": settings.MERCHANT,
         "amount": amount,  # Rial / Required
@@ -40,6 +41,8 @@ def send_request_to_zp(request, order: Order, amount, email, mobile=None, descri
 
     order.authority = authority
     order.save(update_fields=['authority'])
+    cart.order_authority = authority
+    cart.save(update_fields=['order_authority'])
     return redirect(settings.ZP_API_START_PAY.format(authority=authority))
 
 
