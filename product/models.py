@@ -48,7 +48,7 @@ def body_validator(value):
 
 def upload_product_image_path(instance, filename):
     ext = get_file_ext(filename)
-    new_filename = f"{instance.slug}-{instance.id}{ext}"
+    new_filename = f"{instance.slug}{ext}"
     return os.path.join("image", "product", instance.name, new_filename)
 
 
@@ -80,6 +80,8 @@ class Product(models.Model):
             raise ValidationError("Stone of this product doesn't have any price.")
         if not self.slug:
             self.slug = slugify(self.name)
+        if self.count < 1 and self.in_store:
+            raise ValidationError("You don't have any product in your store.")
 
         self.full_clean()
         super(Product, self).save(*args, **kwargs)
