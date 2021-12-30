@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from order.models import Coupon, Order
+from order.models import Coupon, Order, Price
 
 
 @admin.register(Coupon)
@@ -16,3 +16,9 @@ class OrderModelAdmin(admin.ModelAdmin):
     list_display_links = ['user']
     list_display = ['user', 'is_paid', 'payable_amount']
     list_filter = ['is_paid']
+
+
+@admin.register(Price)
+class PriceModelAdmin(admin.ModelAdmin):
+    readonly_fields = ['id']
+    list_display = ['amount', 'product', 'order']

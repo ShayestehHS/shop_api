@@ -35,3 +35,12 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False)
     authority = models.CharField(null=True, blank=True, max_length=36)
     discount = models.DecimalField(default=0, max_digits=10, decimal_places=2, help_text="Maximum valid discount is 99,999,999.99")
+
+
+class Price(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField()
+
+    def __str__(self):
+        return str(self.amount)
