@@ -95,7 +95,7 @@ class VerifyAPIView(APIView):
             order.save(update_fields=['is_paid'])
             cart = Cart.objects.get(user=request.user)
             cart.products.clear()
-
+            update_products_count(order)
         return response
 
 
