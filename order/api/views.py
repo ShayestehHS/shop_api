@@ -42,10 +42,18 @@ class OrderListAPIView(ListAPIView):
 class OrderCreateAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated, IsNotHavePaidOrder, IsCartHaveProduct]
     serializer_class = OrderCreateSerializer
+    cart = None
+
+    def get_object(self):
+        if self.cart is not None:
+            return self.cart
+        obj = get_object_or_404(Cart, user=self.request.user)
+        self.check_object_permissions(self.request, obj)
+        self.cart = obj
+        return obj
 
     def post(self, request, *args, **kwargs):
-        if Order.objects.filter(user=self.request.user, is_paid=False).exists():
-            return Response({"Error": "You can't have more than one unpaid order at the same time."}, status=status.HTTP_400_BAD_REQUEST)
+        cart: Cart = self.get_object()
 
         cart = Cart.objects.filter(user=self.request.user).only('products', 'sum_prices')
         if not cart.exists():
