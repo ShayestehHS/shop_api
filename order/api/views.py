@@ -3,15 +3,19 @@ import json
 import requests
 from django.conf import settings
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView, get_object_or_404
+from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from cart.models import Cart
+from cart.permissions import IsCartHaveProduct
 from order.models import Order
 from order.api.serializers import OrderCreateSerializer, OrderListSerializer
+from order.permissions import IsNotHavePaidOrder, IsOrderNotPaid
+from order.utils import update_products_count
+from product.models import Product
 from shop_api.utils import create_response_base_on_post_res, send_request_to_zp
 
 
@@ -55,22 +59,16 @@ class OrderCreateAPIView(CreateAPIView):
     def post(self, request, *args, **kwargs):
         cart: Cart = self.get_object()
 
-        cart = Cart.objects.filter(user=self.request.user).only('products', 'sum_prices')
-        if not cart.exists():
-            return Response({"Error": "You don't have any cart."}, status=status.HTTP_404_NOT_FOUND)
-        elif cart.first().sum_prices == 0:
-            return Response({"Error": "You don't have any product in your cart."}, status=status.HTTP_400_BAD_REQUEST)
-
-        kwargs['cart'] = cart.first()
+        kwargs['cart'] = cart
+        kwargs['products'] = Product.objects.filter(cart=cart, in_store=True)
         return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        cart = kwargs.get('cart')
         context = self.get_serializer_context()
-        context.update({'cart': cart})
-
+        context.update({'cart': kwargs.get('cart'), 'products': kwargs.get('products')})
         serializer = self.serializer_class(data=request.data, context=context)
         serializer.is_valid(raise_exception=True)
+
         serializer.create(serializer.validated_data)
         return Response({'Result': 'Order is created.'}, status=status.HTTP_201_CREATED)
 
@@ -92,7 +90,7 @@ class VerifyAPIView(APIView):
         req_header = {"accept": "application/json", "content-type": "application/json"}
         req_data = {
             "merchant_id": settings.MERCHANT,
-            "amount": 50 * 1000,
+            "amount": int(order.payable_amount) * 1000,
             "authority": authority,
         }
 
