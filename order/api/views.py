@@ -40,7 +40,7 @@ class OrderListAPIView(ListAPIView):
 
 
 class OrderCreateAPIView(CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsNotHavePaidOrder, IsCartHaveProduct]
     serializer_class = OrderCreateSerializer
 
     def post(self, request, *args, **kwargs):
@@ -65,6 +65,12 @@ class OrderCreateAPIView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer.validated_data)
         return Response({'Result': 'Order is created.'}, status=status.HTTP_201_CREATED)
+
+
+class OrderDeleteAPIView(DestroyAPIView):
+    permission_classes = [IsAuthenticated, IsOrderNotPaid]
+    queryset = Order.objects.all()
+    lookup_field = 'id'
 
 
 class VerifyAPIView(APIView):
