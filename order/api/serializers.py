@@ -6,13 +6,21 @@ from order.models import Coupon, Order
 
 class OrderListSerializer(serializers.ModelSerializer):
     is_used_coupon = serializers.SerializerMethodField()
+    products = serializers.SerializerMethodField()
+
+    def get_products(self, obj: Order):
+        prices = Price.objects.filter(order=obj).prefetch_related('product')
+        result = {}
+        for price in prices:
+            result.update({price.product.name: price.amount})
+        return result
 
     def get_is_used_coupon(self, obj: Order):
         return bool(obj.coupon_id)
 
     class Meta:
         model = Order
-        fields = ['id', 'user', 'is_used_coupon', 'payable_amount', 'is_paid']
+        fields = ['id', 'user', 'products', 'is_used_coupon', 'payable_amount', 'is_paid']
 
 
 class OrderCreateSerializer(serializers.ModelSerializer):
