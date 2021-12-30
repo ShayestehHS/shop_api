@@ -27,18 +27,26 @@ def get_gold_price_from_cache(carat: str):
     return price
 
 
+def get_price(product):
+    material_price = 2  # ToDo: Clean this line
+    price = (material_price + product.wage) * product.weight * benefit * tax
+    price += product.stone_price
+    return price
+
+
 def get_products_price(products):
     """
-        For getting product price we need:
-        'carat', 'wage', 'weight', 'stone_price'
+        For getting products price we need:
+        'id', 'carat', 'wage', 'weight', 'stone_price'
     """
     result = []
     for product in products:
-        # material_price = get_material_price_from_cache(product.material,product.carat)
-        material_price = 200  # ToDo: Clean this line
-        price = (material_price + product.wage) * product.weight * benefit * tax
-        price += product.stone_price
-        result.append(price)
+        price = cache.get(f'products:{product.id}:price')
+        if price is None:
+            price = get_price(product)
+            cache.set(f'products:{product.id}:price', price, timeout=30)
+            result.append(price)
+
     return result
 
 
