@@ -50,8 +50,10 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        new_amount = 0
         user = self.context['request'].user
         cart: Cart = self.context['cart']  # Set in view
+        products = self.context['products']  # Set in view
         coupon = self.context.get('coupon')  # Set in validate_coupon_code
         validated_data.pop('coupon_code')
 
