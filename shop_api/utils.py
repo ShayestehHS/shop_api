@@ -4,6 +4,7 @@ import requests
 from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
+from django_comments_xtd.utils import get_user_avatar
 from rest_framework.response import Response
 
 from order.models import Order
@@ -20,8 +21,7 @@ def send_request_to_zp(request, order: Order, amount, email, mobile=None, descri
     if mobile:
         req_data['metadata']['mobile'] = mobile
 
-    req_header = {"accept": "application/json",
-                  "content-type": "application/json'"}
+    req_header = {"accept": "application/json", "content-type": "application/json'"}
     req = requests.post(url=settings.ZP_API_REQUEST, data=json.dumps(req_data), headers=req_header)
 
     try:
@@ -64,3 +64,12 @@ def create_response_base_on_post_res(res_post):
         message = str(request_data['message'])
         response = Response({'Result': 'Transaction failed.', 'Message': message}, status=400)
     return response
+
+
+def get_avatar_url(comment):
+    if comment.user is not None:
+        try:
+            return comment.user.image.url
+        except Exception as exc:
+            pass
+    return get_user_avatar(comment)
