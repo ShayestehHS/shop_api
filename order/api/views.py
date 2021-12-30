@@ -117,4 +117,5 @@ class PaymentAPIView(APIView):
             return Response({"Error": "You can't have more than one unpaid order at the same time."}, status=status.HTTP_400_BAD_REQUEST)
 
         order = order.first()
-        return send_request_to_zp(request, order, int(order.payable_amount) * 1000, user.email)
+        cart = get_object_or_404(Cart, user=user)
+        return send_request_to_zp(request, order, cart, int(order.payable_amount) * 1000, user.email)
