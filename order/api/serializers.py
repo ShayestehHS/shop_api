@@ -1,7 +1,16 @@
 from rest_framework import serializers
 
 from cart.models import Cart
-from order.models import Coupon, Order
+from order.models import Coupon, Order, Price
+from product.utils import get_products_price, get_sum_price
+
+
+def create_price(order: Order, products, products_price):
+    bulk_list = []
+    for inx, product in enumerate(products):
+        product_price = products_price[inx]
+        bulk_list.append(Price(order=order, product=product, amount=product_price))
+    Price.objects.bulk_create(bulk_list)
 
 
 class OrderListSerializer(serializers.ModelSerializer):
@@ -46,19 +55,18 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         coupon = self.context.get('coupon')  # Set in validate_coupon_code
         validated_data.pop('coupon_code')
 
-        payable_amount = cart.sum_prices
-        discount = 0
-        new_amount = 0
+        products_price = get_products_price(products)
+        payable_amount = get_sum_price(products_price)
         if coupon and coupon.discount_percent != 0:
             new_amount = payable_amount * (100 - coupon.discount_percent)
         elif coupon and coupon.discount_amount != 0:
             new_amount = payable_amount - coupon.discount_amount
-        if new_amount:
-            discount = payable_amount - new_amount
 
+        discount = payable_amount - new_amount
         order = Order.objects.create(**validated_data,
                                      user=user, discount=discount,
                                      payable_amount=payable_amount)
         order.products.add(cart.products.values_list('id', flat=True).first())
+        create_price(order, products, products_price)
         cart.products.clear()
         return order
