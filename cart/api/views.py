@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.generics import ListAPIView, GenericAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -66,10 +67,14 @@ class CartAddProduct(APIView):
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
-        product = get_object_or_404(Product, pk=pk)
-        cart = Cart.objects.get(user=request.user)
+        product = Product.objects.filter(pk=pk).only('id', 'in_store')
+        if product.exists() and not product.first().in_store:
+            return Response({"Error": "We don't have this product in our store."}, status.HTTP_400_BAD_REQUEST)
+        elif not product.exists():
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-        cart.products.add(product)
+        cart = get_object_or_404(Cart, user=request.user)
+        cart.products.add(product.first())
         return Response({'Result': 'Success'})
 
 
