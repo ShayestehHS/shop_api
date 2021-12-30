@@ -64,7 +64,7 @@ class ArticleRetrieve(RetrieveAPIView):
             .select_related('author') \
             .only(*self.serializer_class.Meta.fields, 'id', 'hits', 'slug')
 
-        if not obj.exists(): raise NotFound(detail="Error 404, article not found", code=404)
+        if not obj.exists(): raise NotFound(detail="Article not found", code=404)
         obj.first()
         obj.hits += 1  # should be in 'only'
         obj.save(update_fields=['hits'])  # save method use 'slug'

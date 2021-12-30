@@ -22,7 +22,7 @@ class ProductRetrieve(RetrieveAPIView):
             .defer(*self.serializer_class.Meta.exclude)
 
         if not obj.exists():
-            raise NotFound(detail="Error 404, product not found", code=status.HTTP_400_BAD_REQUEST)
+            raise NotFound(detail="Product not found.", code=status.HTTP_400_BAD_REQUEST)
         return obj.first()
 
 
@@ -40,7 +40,7 @@ class ProductList(ListAPIView):
         qs = Product.objects \
             .filter(in_store=True) \
             .defer(*self.serializer_class.Meta.exclude)
-        if not qs.exists(): raise NotFound(detail="Error 404, Our store is empty", code=404)
+        if not qs.exists(): raise NotFound(detail="Our store is empty", code=404)
 
         cache.set('products', qs)
         return qs
