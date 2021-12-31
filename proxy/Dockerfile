@@ -6,9 +6,9 @@ ENV APP_HOST=app
 ENV APP_PORT=9000
 
 
-COPY ./uwsgi_params /etc/nginx/uwsgi_params
-COPY ./default.conf.tpl /etc/nginx/default.conf.tpl
-COPY ./run.sh /run.sh
+COPY uwsgi_params /etc/nginx/uwsgi_params
+COPY default.conf.tpl /etc/nginx/default.conf.tpl
+COPY run.sh /run.sh
 
 USER root
 

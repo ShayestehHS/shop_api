@@ -41,7 +41,7 @@ services:
     restart: always
     build:
       context: .
-    command: celery -A app worker -l info
+    command: celery -A shop_api worker -l info
     volumes:
       - ./app:/app
     depends_on:
