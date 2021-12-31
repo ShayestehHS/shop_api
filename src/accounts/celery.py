@@ -7,7 +7,7 @@ from celery import Celery
 from shop_api.settings import setting_env
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'shop_api.settings.{setting_env.lower()}')
-app = Celery('shop_api')
+app = Celery('accounts')
 
 app.conf.broker_url = f'redis://{os.getenv("REDIS_HOST", "localhost")}:6379/0'
 app.conf.result_backend = 'redis://localhost:6379/0'
