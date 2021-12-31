@@ -40,7 +40,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         fields = ['address', 'coupon_code']
 
     def validate_coupon_code(self, value):
-        if value is '':
+        if value == '':
             return value
 
         coupon = Coupon.objects.filter(code=value).only('discount_amount', 'discount_percent')
