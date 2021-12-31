@@ -18,7 +18,7 @@ RUN apk add --update --virtual .tmp-deps \
     /py/bin/pip install -r /requirements.txt
 
 COPY ./scripts /scripts
-COPY ./eCommerce /app
+COPY ./shop_api /app
 
 WORKDIR /app
 EXPOSE 8000

@@ -28,8 +28,15 @@ DATABASES = {
 
 # Celery configuration
 DJANGO_SETTINGS_MODULE = 'settings.production'
-BROKER_URL = f'redis://{os.getenv("HOSTNAME")}:6379'
-CELERY_RESULT_BACKEND = f'redis://{os.getenv("HOSTNAME")}:6379'
+BROKER_URL = f'redis://{config("REDIS_HOST")}:6379'
+CELERY_RESULT_BACKEND = f'redis://{config("REDIS_HOST")}:6379'
 
 # Cache configuration
 CACHES['default']['LOCATION'] = "redis://redis/1"
+
+# Email config
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_SSL = config('EMAIL_USE_SSL')
