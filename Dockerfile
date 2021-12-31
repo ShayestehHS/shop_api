@@ -14,7 +14,7 @@ ENV LIBRARY_PATH=/lib:/usr/lib
 COPY ./requirements.txt /requirements.txt
 
 RUN apk add --update --virtual .tmp-deps \
-        build-base libffi-dev openssl-dev gcc psycopg2 postgresql-dev musl-dev linux-headers && \
+        build-base libffi-dev openssl-dev gcc postgresql-dev musl-dev linux-headers && \
     /py/bin/pip install -r /requirements.txt
 
 COPY ./scripts /scripts
