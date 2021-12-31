@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = "CHANGE-ME"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "CHANGE-ME"
+DEBUG = 0
 
-ALLOWED_HOSTS = "CHANGE-ME"
+ALLOWED_HOSTS = []
 
 # Application definition
 DJANGO_APPS = [

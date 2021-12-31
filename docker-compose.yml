@@ -35,19 +35,22 @@ services:
       - static-data:/vol/static
 
   redis:
+    container_name: redis
     image: redis:alpine
 
   celery:
+    container_name: celery
     restart: always
     build:
       context: .
     command: celery -A shop_api worker -l info
     volumes:
-      - ./app:/app
+      - .:/app
     depends_on:
       - db
       - redis
       - app
+
 volumes:
   postgres-data:
   static-data:

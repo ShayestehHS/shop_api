@@ -1,5 +1,5 @@
+wheel
 amqp==5.0.6
-cffi==1.15.0
 appdirs==1.4.4
 asgiref==3.3.4
 autopep8==1.5.6
@@ -49,6 +49,7 @@ kombu==5.2.2
 oauthlib==3.1.1
 Pillow==8.4.0
 prompt-toolkit==3.0.23
+psycopg2=2.9.3
 pyasn1==0.4.8
 pycodestyle==2.7.0
 pycparser==2.20
