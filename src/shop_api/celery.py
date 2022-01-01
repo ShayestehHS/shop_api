@@ -7,10 +7,10 @@ from celery import Celery
 from shop_api.settings import setting_env
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'shop_api.settings.{setting_env.lower()}')
-app = Celery('accounts')
+app = Celery('shop_api')
 
-app.conf.broker_url = f'redis://{os.getenv("REDIS_HOST", "localhost")}:6379/0'
-app.conf.result_backend = 'redis://localhost:6379/0'
+app.conf.broker_url = f'redis://{os.getenv("BROKER_URL", "localhost")}:6379/0'
+app.conf.result_backend = f'redis://{os.getenv("REDIS_HOST", "localhost")}:6379/0'
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 app.conf.beat_schedule = {
