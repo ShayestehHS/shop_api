@@ -12,4 +12,8 @@ python manage.py collectstatic --noinput
 python manage.py makemigrations --noinput
 python manage.py migrate
 
+cd src
+celery -A shop_api worker -l info
+cd ..
+
 uwsgi --socket :9000 --workers 4 --master --enable-threads --module shop_api.wsgi

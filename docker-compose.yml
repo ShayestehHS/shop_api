@@ -43,7 +43,6 @@ services:
     restart: always
     build:
       context: .
-    command: celery -A accounts worker -l info
     volumes:
       - .:/app
     depends_on:
